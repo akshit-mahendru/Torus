@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Torus</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+        <script type="text/javascript" src="{{ url_for('static', filename='updateTime.js')}}"></script>
+        {% block script %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            <nav class="top-navbar">
+                <div class="left-section">
+                    <div class="company-name">Torus Research</div>
+                    <div class="separator">|</div>
+                    <div class="location">Durham</div>
+                </div>
+                <div class="menu-section">
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="#" class="menu-link">
+                                <span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg></span> 
+                                <span class="menu-text" id="home-link">Home</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#">About Us</a>
+                                <a href="#">Our Product</a>
+                            </div>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#" class="menu-link">
+                                <span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg></span> 
+                                <span class="menu-text" id="visualise-link">Visualizations</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#">Data Sets</a>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="right-section">
+                    <div class="current-time"><span id="time"></span></div>
+                </div>
+            </nav>
+        </header>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            const homeLink = document.getElementById('home-link');
+            const visualizeLink = document.getElementById('visualise-link');
+
+            homeLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default link behavior (page reload)
+                window.location.href = '/home'; // Change the URL to the desired location
+            });
+
+            visualizeLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default link behavior (page reload)
+                window.location.href = '/visualise'; // Change the URL to the desired location
+            });
+        });
+        </script>
+        <script>
+            function updateTime() {
+            const timeElement = document.getElementById('time');
+            const currentTime = new Date();
+            let hours = currentTime.getHours();
+            const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+            const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            // Convert to 12-hour format
+            hours = hours % 12 || 12;
+
+            const formattedTime = `${hours}:${minutes}:${seconds} ${ampm}`;
+            timeElement.textContent = formattedTime;
+            }
+
+            // Call the updateTime function to set the initial time
+            updateTime();
+
+            // Update the time every second (1000 milliseconds)
+            setInterval(updateTime, 1000);
+
+        </script>
+        
+        <main>
+            <div id="torusContainer">
+                <canvas id="canvasdonut" width="1400" height="1000"></canvas>
+            </div>
+            <script>
+                var A = 1;
+                var B = 1;
+
+                // Adjust these values to make the torus twice the size and centered
+                var R1 = 4; // Increase to make R1 twice as large
+                var R2 = 8; // Increase to make R2 twice as large
+                var K1 = 600; // Increase to scale K1
+                var K2 = 20; // Increase to scale K2
+
+                var canvasframe = function() {
+                var canvastag = document.getElementById('canvasdonut');
+                var ctx = canvastag.getContext('2d');
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+                A += 0.07;
+                B += 0.03;
+
+                var cA = Math.cos(A);
+                var sA = Math.sin(A);
+                var cB = Math.cos(B);
+                var sB = Math.sin(B);
+
+                var centerX = ctx.canvas.width / 2;
+                var centerY = ctx.canvas.height / 2;
+
+                for (var j = 0; j < 6.28; j += 0.1) { // Larger step for fewer points
+                    var ct = Math.cos(j);
+                    var st = Math.sin(j);
+
+                    for (var i = 0; i < 6.28; i += 0.1) {   // Larger step for fewer points
+                    var sp = Math.sin(i);
+                    var cp = Math.cos(i);
+                    var ox = R2 + R1 * ct;
+                    var oy = R1 * st;
+
+                    var x = ox * (cB * cp + sA * sB * sp) - oy * cA * sB;
+                    var y = ox * (sB * cp - sA * cB * sp) + oy * cA * cB;
+                    var ooz = 1 / (K2 + cA * ox * sp + sA * oy);
+                    var xp = centerX + K1 * ooz * x; // Center the torus
+                    var yp = centerY - K1 * ooz * y; // Center the torus
+                    var L = 0.7 * (cp * ct * sB - cA * ct * sp - sA * st + cB * (cA * st - ct * sA * sp));
+
+                    if (L > 0) {
+                        // Larger and more visible points
+                        ctx.fillStyle = 'rgba(255,255,255,' + (L + 0.3) + ')'; // Adjust opacity
+                        ctx.fillRect(xp, yp, 3, 3); // Increase the size of the points
+                    }
+                    }
+                }
+                };
+
+                var tmr2 = setInterval(canvasframe, 40); // Reduced interval for a faster animation
+
+                canvasframe();
+            </script>
+            {% block main %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

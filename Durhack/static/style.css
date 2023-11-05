@@ -1,0 +1,352 @@
+@font-face{
+    font-family: cmu;
+    src:url(cmu.serif-roman.ttf)
+}
+
+/* Change vpage scaling stuff is currenlty too big*/ 
+/* Find better Latex Font */
+:root {
+    font-size: 16px;
+    font-family: cmu;
+    box-sizing: border-box;
+    --text-primary: white; /* Text color (black) */
+    --text-secondary: blue; /* Secondary text color (shades of grey) */
+    --bg-primary: black; /* Main background color (white) */
+    --bg-secondary: #5A5A5A; /* Secondary background color (light grey) */
+    --bg-tertiary: #cccccc; /* Tertiary background color (medium grey) */
+    --transition-speed: 200ms
+}
+
+body {
+    font-size: 24px;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    margin: 0;
+    padding: 0;
+}
+
+section {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height:  75vh;
+}
+
+section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: gray;
+    width: 95%; /* Set the width to 60% */
+    left: 2.5%; /* Center the bar horizontally */
+}
+
+.reveal{
+    position: relative;
+    transform: translateY(150px);
+    opacity: 0;
+    transition: all 4s;
+}
+
+.reveal.active{
+    transform: translateY(0px);
+    opacity: 1;
+}
+/*
+.hidden {
+    opacity: 0;
+}
+.show {
+    opacity: 1;
+}
+
+*/
+#torusContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000; /* Set the background color for the torus container */
+    padding: 20px; /* Add padding to the torus container */
+}
+
+
+/*can remover margin bottom feautre, just want to make it so the page header is the same height/width as the Top sybmol, i.e. align the page ehading with the logo o the navbar */
+.Pageheader {
+    border-bottom: 0.5px solid white; /* 1px white underline */
+    padding-top:0px; /* Adjust padding as needed to control the space between the content and the underline */
+    /* Other styles for your div */
+
+}
+h1 {
+    font-size: 64px;
+}
+canvas {
+    display: block;
+}
+
+body::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  
+body::-webkit-scrollbar-track {
+    background-color: var(--bg-primary);
+  }
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--bg-secondary);
+  }
+
+
+main {
+    margin-left: 5rem;
+    padding: 1rem;
+}
+
+
+
+/* Make the nave bar at the top instead probably*/
+
+/* Media Queries for resizing */
+@media (max-width: 768px) {
+    /*Add Media Queiers */
+    body {
+        font-size: 20px; /* Adjust font size for smaller screens */
+    }
+
+    h1 {
+        font-size: 48px; /* Adjust h1 font size for smaller screens */
+    }
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: gray;
+    width: 90%; /* Set the width to 90% */
+    left: 5%; /* Center the bar horizontally */
+}
+
+
+.top-navbar {
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5rem; /* Adjust padding with left and right margins of 5rem */
+    height: 60px; /* Adjust the height to make the bar taller */
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+}
+
+.company-name {
+    font-weight: bold;
+    margin-right: 5px;
+    font-size: 1.5rem; /* Adjust the font size to make the company name taller */
+}
+
+.separator {
+    margin: 0 5px;
+}
+
+.location {
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: 5px;
+    font-size: 1.5rem; /* Adjust the font size to make the location taller */
+}
+
+.menu-section {
+    flex-grow: 1;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+}
+
+.menu-item {
+    margin: 0;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+    font-size: 1.2rem; /* Adjust the font size of menu items */
+}
+
+.menu-item:hover a {
+    color: white;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--bg-tertiary);
+    min-width: 160px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.menu-item:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+}
+
+
+.dropdown-content a {
+    background-color: #000;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.menu-item:hover .dropdown-content a {
+
+    opacity: 1;
+}
+
+.right-section {
+    font-weight: bold;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+}
+.menu-icon {
+    /* Add any necessary styles for your SVG icon */
+    margin-right: 5px; /* Adjust as needed to control the space between the icon and text */
+}
+
+.menu-text {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+}
+
+.menu-icon svg{
+    transform: rotate();
+    transition: transform var(--transition-speed);
+}
+
+.menu-item:hover .menu-icon svg {
+    transform: rotate(90deg);
+}
+
+.menu-item:hover .menu-text {
+    position: relative;
+}
+
+.menu-item .menu-text::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: gray;
+    transition: width 400ms ease-in-out;
+}
+
+.menu-item:hover .menu-text::after {
+    width: 100%;
+}
+
+.top-navbar {
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5rem;
+    height: 60px;
+    position: relative; /* Add this line to create a relative positioning context */
+}
+
+.top-navbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: gray;
+    width: 90%;
+    left: 5%;
+}
+
+form {
+    width: 75%;
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 60px;
+    background-color: black;
+    color: white;
+    font-size: 24px;
+    border: none;
+    border-bottom: 2px solid gray;
+    caret-color: white;
+    outline: none; /* Remove the border on focus (press) */
+    transition: all var(--transition-speed);
+}
+form:hover input[type="text"]::placeholder {
+    opacity: 0.2; /* Reduce opacity on hover */
+}
+
+.visualization-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: black; /* Adjust the background color as needed */
+}
+
+iframe::-webkit-scrollbar {
+    width: 0.25rem;
+}
+
+iframe::-webkit-scrollbar-track {
+background-color: var(--bg-primary);
+}
+
+iframe::-webkit-scrollbar-thumb {
+background-color: var(--bg-secondary);
+}
+
+iframe {
+    background-color: white;
+}
+
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

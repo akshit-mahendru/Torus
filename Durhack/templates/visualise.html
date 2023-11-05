@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block main %}
+<section>
+    <h2>Visualization</h2>
+    <form id="text-form">
+        <input type="text" id="user-input" placeholder="Enter Text and press Enter" style="width: 100%; height: 60px; background-color: black; color: white; font-size: 18px; border: none; border-bottom: 2px solid gray; caret-color: red;">
+    </form>
+</section>
+<section class="visual">
+    <div id="response">Response will appear here</div>
+    <!-- Add a menu here for what you want -->
+    <!-- Define CSS for .visuale for formatting how the visualization will be displayed -->
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('text-form');
+        const userInput = document.getElementById('user-input');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const text = userInput.value;
+
+            fetch('/process_text', {
+                method: 'POST',
+                body: JSON.stringify({ text: text }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => {
+                // Clear the existing content within the <section class="visual"> element
+                const visualSection = document.querySelector('section.visual');
+                visualSection.innerHTML = '';
+
+                // Create the HTML snippet as a string
+                const htmlSnippet = `
+
+                    <div id="frames">
+                    <section><iframe src="{{ url_for('static', filename='fig1.html')}}" width="800" height="600" style="background-color:white;"></iframe></section>
+                    <section><iframe src="{{ url_for('static', filename='fig2.html')}}" width="800" height="600" style="background-color:white;"></iframe></section>
+                    <section><iframe src="{{ url_for('static', filename='fig3.html')}}" width="800" height="600" style="background-color:white;"></iframe></section>
+                    </div>
+                `;
+
+                // Append the HTML snippet to the visualSection
+                visualSection.innerHTML = htmlSnippet;
+                });
+
+            userInput.value = '';
+        });
+    });
+</script>
+
+
+{% endblock %}

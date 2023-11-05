@@ -1,0 +1,30 @@
+{% extends "base.html"%}
+
+{% block script %}
+<script type="text/javascript" src="{{ url_for('static', filename='scroll.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='videoscroll.js')}}"></script>
+{% endblock %}
+
+
+{% block title %} Home Page {% endblock %}
+{% block main %}
+<div id="about-us-section"></div>
+    <section class="reveal">
+        <h1>About Us</h1>
+        <p>We are a collection of Durham University students with a keen interest in programming and problem solving. We focus on providing data science solutions, and helping professionals gain a unique insight into the research being done in their fields of interest.</p>
+    </section>
+</div>
+
+
+
+<section class="reveal">
+    <h1>Our Prodcut</h1>
+    <p>We provide a deep analysis on the field of academic research, offering to our users the ability to visualise thousands of papers in an intuitive and clear way. Our comprehensive topic model allows you to explore the research around your areas of interest, to identify gaps in knowledge and areas of saturation.</p>
+</section>
+
+<section>
+    <video id="vid" src="{{ url_for('static', filename='Intro1.mp4')}}"></video>
+</section>
+
+{% endblock %}
+
